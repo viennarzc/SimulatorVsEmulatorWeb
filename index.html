@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Xcode Simulator vs Android Emulator</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -723,7 +724,7 @@
         <div class="engine-box">
           <div class="engine-label">Core Engine</div>
           <div class="engine-name">QEMU + Android Virtual Machine</div>
-          <p class="engine-desc">Built on QEMU for CPU emulation, with hardware acceleration via KVM (Linux), WHPX (Windows), or Hypervisor.Framework/HVF (macOS) to run x86 Android images near-natively. HAXM was deprecated by Intel in 2023.</p>
+          <p class="engine-desc">Built on QEMU for CPU emulation, with hardware acceleration via KVM (Linux), WHPX (Windows), or Hypervisor.Framework/HVF (macOS) to run x86 Android images near-natively. HAXM was deprecated in January 2023 and removed from Android Emulator 36.2+, so current Windows acceleration uses WHPX rather than HAXM or "AEHD."</p>
         </div>
         <div class="flow-steps">
           <div class="flow-step">
@@ -902,40 +903,6 @@
   <div>simulator-vs-emulator.html &nbsp;·&nbsp; xcode simulator vs android emulator &nbsp;·&nbsp; technical reference</div>
 </footer>
 
-<script>
-  // Filter logic
-  const buttons = document.querySelectorAll('.filter-btn');
-  const rows = document.querySelectorAll('#compTable tbody tr');
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      rows.forEach(row => {
-        if (filter === 'all') {
-          row.classList.remove('hidden');
-        } else if (filter === 'diff' && row.dataset.type === 'sim') {
-          row.classList.add('hidden');
-        } else if (filter === 'sim' && row.dataset.type === 'diff') {
-          row.classList.add('hidden');
-        } else {
-          row.classList.remove('hidden');
-        }
-      });
-    });
-  });
-
-  // Intersection observer for fade-in
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.style.animationPlayState = 'running';
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-up').forEach(el => {
-    el.style.animationPlayState = 'paused';
-    obs.observe(el);
-  });
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
